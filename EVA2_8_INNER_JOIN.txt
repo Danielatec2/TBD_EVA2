@@ -1,0 +1,1246 @@
+EVA2_8_INNER_JOIN
+MySQL Shell 8.0.37
+
+Copyright (c) 2016, 2024, Oracle and/or its affiliates.
+Oracle is a registered trademark of Oracle Corporation and/or its affiliates.
+Other names may be trademarks of their respective owners.
+
+Type '\help' or '\?' for help; '\quit' to exit.
+ MySQL  JS > \sql
+Switching to SQL mode... Commands end with ;
+ MySQL  SQL > \connect --mc root@localhost
+Creating a Classic session to 'root@localhost'
+Fetching global names for auto-completion... Press ^C to stop.
+Your MySQL connection id is 10
+Server version: 8.0.37 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+ MySQL  localhost:3306 ssl  SQL > use sakila
+Default schema set to `sakila`.
+Fetching global names, object names from `sakila` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  sakila  SQL > desc payment;
++--------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+| Field        | Type              | Null | Key | Default           | Extra                                         |
++--------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+| payment_id   | smallint unsigned | NO   | PRI | NULL              | auto_increment                                |
+| customer_id  | smallint unsigned | NO   | MUL | NULL              |                                               |
+| staff_id     | tinyint unsigned  | NO   | MUL | NULL              |                                               |
+| rental_id    | int               | YES  | MUL | NULL              |                                               |
+| amount       | decimal(5,2)      | NO   |     | NULL              |                                               |
+| payment_date | datetime          | NO   |     | NULL              |                                               |
+| last_update  | timestamp         | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
++--------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+7 rows in set (0.0210 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > desc payment;
++--------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+| Field        | Type              | Null | Key | Default           | Extra                                         |
++--------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+| payment_id   | smallint unsigned | NO   | PRI | NULL              | auto_increment                                |
+| customer_id  | smallint unsigned | NO   | MUL | NULL              |                                               |
+| staff_id     | tinyint unsigned  | NO   | MUL | NULL              |                                               |
+| rental_id    | int               | YES  | MUL | NULL              |                                               |
+| amount       | decimal(5,2)      | NO   |     | NULL              |                                               |
+| payment_date | datetime          | NO   |     | NULL              |                                               |
+| last_update  | timestamp         | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
++--------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+7 rows in set (0.0018 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > desc customer;
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+| Field       | Type              | Null | Key | Default           | Extra                                         |
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+| customer_id | smallint unsigned | NO   | PRI | NULL              | auto_increment                                |
+| store_id    | tinyint unsigned  | NO   | MUL | NULL              |                                               |
+| first_name  | varchar(45)       | NO   |     | NULL              |                                               |
+| last_name   | varchar(45)       | NO   | MUL | NULL              |                                               |
+| email       | varchar(50)       | YES  |     | NULL              |                                               |
+| address_id  | smallint unsigned | NO   | MUL | NULL              |                                               |
+| active      | tinyint(1)        | NO   |     | 1                 |                                               |
+| create_date | datetime          | NO   |     | NULL              |                                               |
+| last_update | timestamp         | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+9 rows in set (0.0018 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > select a.customer_id, a.frist_name,
+                                       -> a.last_name, b.amount
+                                       -> from customer a inner join payment b
+                                       -> on a.customer_id=b.customer_id
+                                       -> limit 50;
+ERROR: 1054 (42S22): Unknown column 'a.frist_name' in 'field list'
+ MySQL  localhost:3306 ssl  sakila  SQL > select a.customer_id, a.first_name, a.last_name, b.amount from customer a inner join payment b on a.customer_id=b.customer_id limit 50;
++-------------+------------+-----------+--------+
+| customer_id | first_name | last_name | amount |
++-------------+------------+-----------+--------+
+|           1 | MARY       | SMITH     |   2.99 |
+|           1 | MARY       | SMITH     |   0.99 |
+|           1 | MARY       | SMITH     |   5.99 |
+|           1 | MARY       | SMITH     |   0.99 |
+|           1 | MARY       | SMITH     |   9.99 |
+|           1 | MARY       | SMITH     |   4.99 |
+|           1 | MARY       | SMITH     |   4.99 |
+|           1 | MARY       | SMITH     |   0.99 |
+|           1 | MARY       | SMITH     |   3.99 |
+|           1 | MARY       | SMITH     |   5.99 |
+|           1 | MARY       | SMITH     |   5.99 |
+|           1 | MARY       | SMITH     |   4.99 |
+|           1 | MARY       | SMITH     |   4.99 |
+|           1 | MARY       | SMITH     |   7.99 |
+|           1 | MARY       | SMITH     |   2.99 |
+|           1 | MARY       | SMITH     |   4.99 |
+|           1 | MARY       | SMITH     |   4.99 |
+|           1 | MARY       | SMITH     |   0.99 |
+|           1 | MARY       | SMITH     |   0.99 |
+|           1 | MARY       | SMITH     |   2.99 |
+|           1 | MARY       | SMITH     |   2.99 |
+|           1 | MARY       | SMITH     |   4.99 |
+|           1 | MARY       | SMITH     |   3.99 |
+|           1 | MARY       | SMITH     |   0.99 |
+|           1 | MARY       | SMITH     |   4.99 |
+|           1 | MARY       | SMITH     |   0.99 |
+|           1 | MARY       | SMITH     |   0.99 |
+|           1 | MARY       | SMITH     |   2.99 |
+|           1 | MARY       | SMITH     |   0.99 |
+|           1 | MARY       | SMITH     |   1.99 |
+|           1 | MARY       | SMITH     |   2.99 |
+|           1 | MARY       | SMITH     |   5.99 |
+|           2 | PATRICIA   | JOHNSON   |   4.99 |
+|           2 | PATRICIA   | JOHNSON   |   2.99 |
+|           2 | PATRICIA   | JOHNSON   |   2.99 |
+|           2 | PATRICIA   | JOHNSON   |   6.99 |
+|           2 | PATRICIA   | JOHNSON   |   4.99 |
+|           2 | PATRICIA   | JOHNSON   |   5.99 |
+|           2 | PATRICIA   | JOHNSON   |   5.99 |
+|           2 | PATRICIA   | JOHNSON   |   5.99 |
+|           2 | PATRICIA   | JOHNSON   |   2.99 |
+|           2 | PATRICIA   | JOHNSON   |   5.99 |
+|           2 | PATRICIA   | JOHNSON   |   4.99 |
+|           2 | PATRICIA   | JOHNSON   |  10.99 |
+|           2 | PATRICIA   | JOHNSON   |   0.99 |
+|           2 | PATRICIA   | JOHNSON   |   6.99 |
+|           2 | PATRICIA   | JOHNSON   |   6.99 |
+|           2 | PATRICIA   | JOHNSON   |   2.99 |
+|           2 | PATRICIA   | JOHNSON   |   0.99 |
+|           2 | PATRICIA   | JOHNSON   |   0.99 |
++-------------+------------+-----------+--------+
+50 rows in set (0.0031 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > select sum(amount) from payment
+                                       -> where customer_id=1;
++-------------+
+| sum(amount) |
++-------------+
+|      118.68 |
++-------------+
+1 row in set (0.0049 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > select sum(ampunt) a.customer_id, a.first_name, a.last_name, b.amount from payment
+                                       -> ^C
+ MySQL  localhost:3306 ssl  sakila  SQL >
+ MySQL  localhost:3306 ssl  sakila  SQL > select sum(a.amount) a.customer_id, a.frist_name, a.last_name, b.amount from payment
+                                       -> a inner join customer b on a.customer_id=b.customer_id group by customer_id order by
+                                       -> sum(a.amount) limit 1;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '.customer_id, a.frist_name, a.last_name, b.amount from payment
+a inner join cust' at line 1
+ MySQL  localhost:3306 ssl  sakila  SQL > select sum(a.amount) a.customer_id, a.first_name, a.last_name, b.amount from payment a inner join customer b on a.customer_id=b.customer_id group by customer_id order by sum(a.amount) limit 1;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '.customer_id, a.first_name, a.last_name, b.amount from payment a inner join cust' at line 1
+ MySQL  localhost:3306 ssl  sakila  SQL > select sum(a.amount) a.customer_id, b.first_name, b.last_name, b.amount from payment a inner join customer b on a.customer_id=b.customer_id group by customer_id order by sum(a.amount) limit 1;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '.customer_id, b.first_name, b.last_name, b.amount from payment a inner join cust' at line 1
+ MySQL  localhost:3306 ssl  sakila  SQL > select sum(a.amount) a.customer_id, b.first_name, b.last_name from payment a inner join customer b on a.customer_id=b.customer_id group by customer_id order by sum(a.amount) limit 1;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '.customer_id, b.first_name, b.last_name from payment a inner join customer b on ' at line 1
+ MySQL  localhost:3306 ssl  sakila  SQL > select sum(a.amount), a.customer_id, b.first_name, b.last_name from payment a inner join customer b on a.customer_id=b.customer_id group by customer_id order by sum(a.amount) limit 1;
++---------------+-------------+------------+-----------+
+| sum(a.amount) | customer_id | first_name | last_name |
++---------------+-------------+------------+-----------+
+|         50.85 |         248 | CAROLINE   | BOWMAN    |
++---------------+-------------+------------+-----------+
+1 row in set (0.0478 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > select sum(a.amount), a.customer_id, b.first_name, b.last_name from payment a inner join customer b on a.customer_id=b.customer_id group by customer_id order by sum(a.amount) desc limit 1;
++---------------+-------------+------------+-----------+
+| sum(a.amount) | customer_id | first_name | last_name |
++---------------+-------------+------------+-----------+
+|        221.55 |         526 | KARL       | SEAL      |
++---------------+-------------+------------+-----------+
+1 row in set (0.0453 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > select sum(a.amount), a.customer_id, b.first_name, b.last_name from payment a inner join customer b on a.customer_id=b.customer_id group by customer_id order by sum(a.amount) asc limit 1;
++---------------+-------------+------------+-----------+
+| sum(a.amount) | customer_id | first_name | last_name |
++---------------+-------------+------------+-----------+
+|         50.85 |         248 | CAROLINE   | BOWMAN    |
++---------------+-------------+------------+-----------+
+1 row in set (0.0317 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > select a.frist_name, a.last_name, sum(b.amount) as total from customer a inner join payment b on
+                                       -> a.customer_id=b.customer_id grup b^C
+ MySQL  localhost:3306 ssl  sakila  SQL > show tables;
++----------------------------+
+| Tables_in_sakila           |
++----------------------------+
+| actor                      |
+| actor_info                 |
+| address                    |
+| category                   |
+| city                       |
+| country                    |
+| customer                   |
+| customer_list              |
+| film                       |
+| film_actor                 |
+| film_category              |
+| film_list                  |
+| film_text                  |
+| inventory                  |
+| language                   |
+| nicer_but_slower_film_list |
+| payment                    |
+| rental                     |
+| sales_by_film_category     |
+| sales_by_store             |
+| staff                      |
+| staff_list                 |
+| store                      |
++----------------------------+
+23 rows in set (0.0053 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > desc city;
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+| Field       | Type              | Null | Key | Default           | Extra                                         |
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+| city_id     | smallint unsigned | NO   | PRI | NULL              | auto_increment                                |
+| city        | varchar(50)       | NO   |     | NULL              |                                               |
+| country_id  | smallint unsigned | NO   | MUL | NULL              |                                               |
+| last_update | timestamp         | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+4 rows in set (0.0273 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > dec country;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'dec country' at line 1
+ MySQL  localhost:3306 ssl  sakila  SQL > desc country
+                                       -> ;
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+| Field       | Type              | Null | Key | Default           | Extra                                         |
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+| country_id  | smallint unsigned | NO   | PRI | NULL              | auto_increment                                |
+| country     | varchar(50)       | NO   |     | NULL              |                                               |
+| last_update | timestamp         | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+3 rows in set (0.0033 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > select sum(city) from city;
++-----------+
+| sum(city) |
++-----------+
+|         0 |
++-----------+
+1 row in set, 600 warnings (0.0375 sec)
+
+ MySQL  localhost:3306 ssl  sakila  SQL > select count(*) from country;
++----------+
+| count(*) |
++----------+
+|      109 |
++----------+
+1 row in set (0.0096 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > select count(*) from city;
++----------+
+| count(*) |
++----------+
+|      600 |
++----------+
+1 row in set (0.0028 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL >
+MySQL Shell 8.0.37
+
+Copyright (c) 2016, 2024, Oracle and/or its affiliates.
+Oracle is a registered trademark of Oracle Corporation and/or its affiliates.
+Other names may be trademarks of their respective owners.
+
+Type '\help' or '\?' for help; '\quit' to exit.
+ MySQL  JS > \sql
+Switching to SQL mode... Commands end with ;
+ MySQL  SQL > \connect --mc root@localhost
+Creating a Classic session to 'root@localhost'
+Fetching global names for auto-completion... Press ^C to stop.
+Your MySQL connection id is 10
+Server version: 8.0.37 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+ MySQL  localhost:3306 ssl  SQL > use sakila
+Default schema set to `sakila`.
+Fetching global names, object names from `sakila` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  sakila  SQL > desc payment;
++--------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+| Field        | Type              | Null | Key | Default           | Extra                                         |
++--------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+| payment_id   | smallint unsigned | NO   | PRI | NULL              | auto_increment                                |
+| customer_id  | smallint unsigned | NO   | MUL | NULL              |                                               |
+| staff_id     | tinyint unsigned  | NO   | MUL | NULL              |                                               |
+| rental_id    | int               | YES  | MUL | NULL              |                                               |
+| amount       | decimal(5,2)      | NO   |     | NULL              |                                               |
+| payment_date | datetime          | NO   |     | NULL              |                                               |
+| last_update  | timestamp         | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
++--------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+7 rows in set (0.0210 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > desc payment;
++--------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+| Field        | Type              | Null | Key | Default           | Extra                                         |
++--------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+| payment_id   | smallint unsigned | NO   | PRI | NULL              | auto_increment                                |
+| customer_id  | smallint unsigned | NO   | MUL | NULL              |                                               |
+| staff_id     | tinyint unsigned  | NO   | MUL | NULL              |                                               |
+| rental_id    | int               | YES  | MUL | NULL              |                                               |
+| amount       | decimal(5,2)      | NO   |     | NULL              |                                               |
+| payment_date | datetime          | NO   |     | NULL              |                                               |
+| last_update  | timestamp         | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
++--------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+7 rows in set (0.0018 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > desc customer;
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+| Field       | Type              | Null | Key | Default           | Extra                                         |
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+| customer_id | smallint unsigned | NO   | PRI | NULL              | auto_increment                                |
+| store_id    | tinyint unsigned  | NO   | MUL | NULL              |                                               |
+| first_name  | varchar(45)       | NO   |     | NULL              |                                               |
+| last_name   | varchar(45)       | NO   | MUL | NULL              |                                               |
+| email       | varchar(50)       | YES  |     | NULL              |                                               |
+| address_id  | smallint unsigned | NO   | MUL | NULL              |                                               |
+| active      | tinyint(1)        | NO   |     | 1                 |                                               |
+| create_date | datetime          | NO   |     | NULL              |                                               |
+| last_update | timestamp         | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+9 rows in set (0.0018 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > select a.customer_id, a.frist_name,
+                                       -> a.last_name, b.amount
+                                       -> from customer a inner join payment b
+                                       -> on a.customer_id=b.customer_id
+                                       -> limit 50;
+ERROR: 1054 (42S22): Unknown column 'a.frist_name' in 'field list'
+ MySQL  localhost:3306 ssl  sakila  SQL > select a.customer_id, a.first_name, a.last_name, b.amount from customer a inner join payment b on a.customer_id=b.customer_id limit 50;
++-------------+------------+-----------+--------+
+| customer_id | first_name | last_name | amount |
++-------------+------------+-----------+--------+
+|           1 | MARY       | SMITH     |   2.99 |
+|           1 | MARY       | SMITH     |   0.99 |
+|           1 | MARY       | SMITH     |   5.99 |
+|           1 | MARY       | SMITH     |   0.99 |
+|           1 | MARY       | SMITH     |   9.99 |
+|           1 | MARY       | SMITH     |   4.99 |
+|           1 | MARY       | SMITH     |   4.99 |
+|           1 | MARY       | SMITH     |   0.99 |
+|           1 | MARY       | SMITH     |   3.99 |
+|           1 | MARY       | SMITH     |   5.99 |
+|           1 | MARY       | SMITH     |   5.99 |
+|           1 | MARY       | SMITH     |   4.99 |
+|           1 | MARY       | SMITH     |   4.99 |
+|           1 | MARY       | SMITH     |   7.99 |
+|           1 | MARY       | SMITH     |   2.99 |
+|           1 | MARY       | SMITH     |   4.99 |
+|           1 | MARY       | SMITH     |   4.99 |
+|           1 | MARY       | SMITH     |   0.99 |
+|           1 | MARY       | SMITH     |   0.99 |
+|           1 | MARY       | SMITH     |   2.99 |
+|           1 | MARY       | SMITH     |   2.99 |
+|           1 | MARY       | SMITH     |   4.99 |
+|           1 | MARY       | SMITH     |   3.99 |
+|           1 | MARY       | SMITH     |   0.99 |
+|           1 | MARY       | SMITH     |   4.99 |
+|           1 | MARY       | SMITH     |   0.99 |
+|           1 | MARY       | SMITH     |   0.99 |
+|           1 | MARY       | SMITH     |   2.99 |
+|           1 | MARY       | SMITH     |   0.99 |
+|           1 | MARY       | SMITH     |   1.99 |
+|           1 | MARY       | SMITH     |   2.99 |
+|           1 | MARY       | SMITH     |   5.99 |
+|           2 | PATRICIA   | JOHNSON   |   4.99 |
+|           2 | PATRICIA   | JOHNSON   |   2.99 |
+|           2 | PATRICIA   | JOHNSON   |   2.99 |
+|           2 | PATRICIA   | JOHNSON   |   6.99 |
+|           2 | PATRICIA   | JOHNSON   |   4.99 |
+|           2 | PATRICIA   | JOHNSON   |   5.99 |
+|           2 | PATRICIA   | JOHNSON   |   5.99 |
+|           2 | PATRICIA   | JOHNSON   |   5.99 |
+|           2 | PATRICIA   | JOHNSON   |   2.99 |
+|           2 | PATRICIA   | JOHNSON   |   5.99 |
+|           2 | PATRICIA   | JOHNSON   |   4.99 |
+|           2 | PATRICIA   | JOHNSON   |  10.99 |
+|           2 | PATRICIA   | JOHNSON   |   0.99 |
+|           2 | PATRICIA   | JOHNSON   |   6.99 |
+|           2 | PATRICIA   | JOHNSON   |   6.99 |
+|           2 | PATRICIA   | JOHNSON   |   2.99 |
+|           2 | PATRICIA   | JOHNSON   |   0.99 |
+|           2 | PATRICIA   | JOHNSON   |   0.99 |
++-------------+------------+-----------+--------+
+50 rows in set (0.0031 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > select sum(amount) from payment
+                                       -> where customer_id=1;
++-------------+
+| sum(amount) |
++-------------+
+|      118.68 |
++-------------+
+1 row in set (0.0049 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > select sum(ampunt) a.customer_id, a.first_name, a.last_name, b.amount from payment
+                                       -> ^C
+ MySQL  localhost:3306 ssl  sakila  SQL >
+ MySQL  localhost:3306 ssl  sakila  SQL > select sum(a.amount) a.customer_id, a.frist_name, a.last_name, b.amount from payment
+                                       -> a inner join customer b on a.customer_id=b.customer_id group by customer_id order by
+                                       -> sum(a.amount) limit 1;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '.customer_id, a.frist_name, a.last_name, b.amount from payment
+a inner join cust' at line 1
+ MySQL  localhost:3306 ssl  sakila  SQL > select sum(a.amount) a.customer_id, a.first_name, a.last_name, b.amount from payment a inner join customer b on a.customer_id=b.customer_id group by customer_id order by sum(a.amount) limit 1;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '.customer_id, a.first_name, a.last_name, b.amount from payment a inner join cust' at line 1
+ MySQL  localhost:3306 ssl  sakila  SQL > select sum(a.amount) a.customer_id, b.first_name, b.last_name, b.amount from payment a inner join customer b on a.customer_id=b.customer_id group by customer_id order by sum(a.amount) limit 1;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '.customer_id, b.first_name, b.last_name, b.amount from payment a inner join cust' at line 1
+ MySQL  localhost:3306 ssl  sakila  SQL > select sum(a.amount) a.customer_id, b.first_name, b.last_name from payment a inner join customer b on a.customer_id=b.customer_id group by customer_id order by sum(a.amount) limit 1;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '.customer_id, b.first_name, b.last_name from payment a inner join customer b on ' at line 1
+ MySQL  localhost:3306 ssl  sakila  SQL > select sum(a.amount), a.customer_id, b.first_name, b.last_name from payment a inner join customer b on a.customer_id=b.customer_id group by customer_id order by sum(a.amount) limit 1;
++---------------+-------------+------------+-----------+
+| sum(a.amount) | customer_id | first_name | last_name |
++---------------+-------------+------------+-----------+
+|         50.85 |         248 | CAROLINE   | BOWMAN    |
++---------------+-------------+------------+-----------+
+1 row in set (0.0478 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > select sum(a.amount), a.customer_id, b.first_name, b.last_name from payment a inner join customer b on a.customer_id=b.customer_id group by customer_id order by sum(a.amount) desc limit 1;
++---------------+-------------+------------+-----------+
+| sum(a.amount) | customer_id | first_name | last_name |
++---------------+-------------+------------+-----------+
+|        221.55 |         526 | KARL       | SEAL      |
++---------------+-------------+------------+-----------+
+1 row in set (0.0453 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > select sum(a.amount), a.customer_id, b.first_name, b.last_name from payment a inner join customer b on a.customer_id=b.customer_id group by customer_id order by sum(a.amount) asc limit 1;
++---------------+-------------+------------+-----------+
+| sum(a.amount) | customer_id | first_name | last_name |
++---------------+-------------+------------+-----------+
+|         50.85 |         248 | CAROLINE   | BOWMAN    |
++---------------+-------------+------------+-----------+
+1 row in set (0.0317 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > select a.frist_name, a.last_name, sum(b.amount) as total from customer a inner join payment b on
+                                       -> a.customer_id=b.customer_id grup b^C
+ MySQL  localhost:3306 ssl  sakila  SQL > show tables;
++----------------------------+
+| Tables_in_sakila           |
++----------------------------+
+| actor                      |
+| actor_info                 |
+| address                    |
+| category                   |
+| city                       |
+| country                    |
+| customer                   |
+| customer_list              |
+| film                       |
+| film_actor                 |
+| film_category              |
+| film_list                  |
+| film_text                  |
+| inventory                  |
+| language                   |
+| nicer_but_slower_film_list |
+| payment                    |
+| rental                     |
+| sales_by_film_category     |
+| sales_by_store             |
+| staff                      |
+| staff_list                 |
+| store                      |
++----------------------------+
+23 rows in set (0.0053 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > desc city;
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+| Field       | Type              | Null | Key | Default           | Extra                                         |
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+| city_id     | smallint unsigned | NO   | PRI | NULL              | auto_increment                                |
+| city        | varchar(50)       | NO   |     | NULL              |                                               |
+| country_id  | smallint unsigned | NO   | MUL | NULL              |                                               |
+| last_update | timestamp         | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+4 rows in set (0.0273 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > dec country;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'dec country' at line 1
+ MySQL  localhost:3306 ssl  sakila  SQL > desc country
+                                       -> ;
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+| Field       | Type              | Null | Key | Default           | Extra                                         |
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+| country_id  | smallint unsigned | NO   | PRI | NULL              | auto_increment                                |
+| country     | varchar(50)       | NO   |     | NULL              |                                               |
+| last_update | timestamp         | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+3 rows in set (0.0033 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > select sum(city) from city;
++-----------+
+| sum(city) |
++-----------+
+|         0 |
++-----------+
+1 row in set, 600 warnings (0.0375 sec)
+Warning (code 1292): Truncated incorrect DOUBLE value: 'A Coruña (La Coruña)'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Abha'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Abu Dhabi'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Acuña'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Adana'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Addis Abeba'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Aden'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Adoni'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Ahmadnagar'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Akishima'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Akron'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'al-Ayn'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'al-Hawiya'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'al-Manama'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'al-Qadarif'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'al-Qatif'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Alessandria'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Allappuzha (Alleppey)'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Allende'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Almirante Brown'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Alvorada'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Ambattur'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Amersfoort'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Amroha'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Angra dos Reis'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Anápolis'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Antofagasta'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Aparecida de Goiânia'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Apeldoorn'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Araçatuba'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Arak'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Arecibo'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Arlington'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Ashdod'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Ashgabat'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Ashqelon'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Asunción'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Athenai'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Atšinsk'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Atlixco'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Augusta-Richmond County'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Aurora'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Avellaneda'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Bagé'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Bahía Blanca'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Baicheng'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Baiyin'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Baku'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Balašiha'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Balikesir'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Balurghat'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Bamenda'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Bandar Seri Begawan'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Banjul'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Barcelona'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Basel'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Bat Yam'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Batman'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Batna'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Battambang'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Baybay'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Bayugan'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Béchar'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Beira'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Bellevue'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Belém'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Benguela'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Beni-Mellal'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Benin City'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Bergamo'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Berhampore (Baharampur)'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Bern'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Bhavnagar'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Bhilwara'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Bhimavaram'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Bhopal'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Bhusawal'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Bijapur'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Bilbays'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Binzhou'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Birgunj'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Bislig'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Blumenau'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Boa Vista'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Boksburg'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Botosani'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Botshabelo'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Bradford'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Brasília'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Bratislava'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Brescia'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Brest'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Brindisi'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Brockton'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Bucuresti'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Buenaventura'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Bydgoszcz'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Cabuyao'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Callao'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Cam Ranh'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Cape Coral'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Caracas'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Carmen'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Cavite'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Cayenne'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Celaya'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Chandrapur'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Changhwa'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Changzhou'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Chapra'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Charlotte Amalie'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Chatsworth'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Cheju'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Chiayi'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Chisinau'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Chungho'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Cianjur'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Ciomas'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Ciparay'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Citrus Heights'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Città del Vaticano'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Ciudad del Este'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Clarksville'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Coacalco de Berriozábal'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Coatzacoalcos'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Compton'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Coquimbo'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Córdoba'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Cuauhtémoc'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Cuautla'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Cuernavaca'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Cumaná'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Czestochowa'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Dadu'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Dallas'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Datong'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Daugavpils'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Davao'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Daxian'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Dayton'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Deba Habe'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Denizli'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Dhaka'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Dhule (Dhulia)'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Dongying'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Donostia-San Sebastián'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Dos Quebradas'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Duisburg'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Dundee'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Dzerzinsk'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Ede'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Effon-Alaiye'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'El Alto'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'El Fuerte'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'El Monte'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Elista'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Emeishan'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Emmen'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Enshi'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Erlangen'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Escobar'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Esfahan'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Eskisehir'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Etawah'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Ezeiza'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Ezhou'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Faaa'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Fengshan'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Firozabad'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Florencia'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Fontana'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Fukuyama'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Funafuti'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Fuyu'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Fuzhou'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Gandhinagar'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Garden Grove'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Garland'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Gatineau'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Gaziantep'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Gijón'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Gingoog'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Goiânia'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Gorontalo'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Grand Prairie'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Graz'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Greensboro'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Guadalajara'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Guarujá'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Águas Lindas de Goiás'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Gulbarga'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Hagonoy'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Haining'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Haiphong'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Haldia'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Halifax'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Halisahar'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Halle/Saale'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Hami'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Hamilton'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Hanoi'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Hidalgo'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Higashiosaka'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Hino'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Hiroshima'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Hodeida'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Hohhot'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Hoshiarpur'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Hsichuh'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Huai´an'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Hubli-Dharwad'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Huejutla de Reyes'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Huixquilucan'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Huánuco'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Ibirité'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Idfu'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Ife'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Ikerre'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Iligan'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Ilorin'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Imus'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Inegöl'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Ipoh'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Isesaki'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Ivanovo'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Iwaki'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Iwakuni'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Iwatsuki'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Izumisano'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Jaffna'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Jaipur'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Jakarta'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Jalib al-Shuyukh'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Jamalpur'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Jaroslavl'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Jastrzebie-Zdrój'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Jedda'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Jelets'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Jhansi'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Jinchang'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Jining'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Jinzhou'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Jodhpur'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Johannesburg'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Joliet'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'José Azueta'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Juazeiro do Norte'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Juiz de Fora'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Junan'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Juárez'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Kabul'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Kaduna'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Kakamigahara'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Kaliningrad'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Kalisz'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Kamakura'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Kamarhati'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Kamjanets-Podilskyi'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Kamyšin'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Kanazawa'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Kanchrapara'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Kansas City'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Karnal'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Katihar'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Kermanshah'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Kilis'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Kimberley'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Kimchon'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Kingstown'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Kirovo-Tšepetsk'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Kisumu'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Kitwe'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Klerksdorp'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Kolpino'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Konotop'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Koriyama'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Korla'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Korolev'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Kowloon and New Kowloon'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Kragujevac'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Kütahya'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Kuching'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Kumbakonam'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Kurashiki'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Kurgan'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Kursk'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Kuwana'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'La Paz'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'La Plata'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'La Romana'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Laiwu'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Lancaster'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Laohekou'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Lapu-Lapu'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Laredo'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Lausanne'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Le Mans'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Lengshuijiang'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Leshan'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Lethbridge'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Lhokseumawe'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Liaocheng'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Liepaja'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Lilongwe'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Lima'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Lincoln'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Linz'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Lipetsk'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Livorno'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Ljubertsy'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Loja'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'London'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'London'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Lublin'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Lubumbashi'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Lungtan'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Luziânia'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Madiun'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Mahajanga'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Maikop'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Malmö'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Manchester'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Mandaluyong'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Mandi Bahauddin'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Mannheim'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Maracaíbo'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Mardan'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Maringá'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Masqat'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Matamoros'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Matsue'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Meixian'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Memphis'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Merlo'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Mexicali'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Miraj'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Mit Ghamr'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Miyakonojo'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Mogiljov'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Molodetšno'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Monclova'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Monywa'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Moscow'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Mosul'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Mukatševe'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Munger (Monghyr)'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Mwanza'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Mwene-Ditu'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Myingyan'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Mysore'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Naçala-Porto'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Nabereznyje Tšelny'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Nador'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Nagaon'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Nagareyama'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Najafabad'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Naju'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Nakhon Sawan'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Nam Dinh'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Namibe'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Nantou'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Nanyang'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'NDjamna'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Newcastle'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Nezahualcóyotl'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Nha Trang'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Niznekamsk'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Novi Sad'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Novotšerkassk'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Nuku´alofa'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Nuuk'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Nyeri'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Ocumare del Tuy'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Ogbomosho'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Okara'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Okayama'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Okinawa'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Olomouc'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Omdurman'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Omiya'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Ondo'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Onomichi'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Oshawa'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Osmaniye'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Šostka'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Otsu'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Oulu'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Ourense (Orense)'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Owo'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Oyo'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Ozamis'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Paarl'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Pachuca de Soto'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Pak Kret'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Palghat (Palakkad)'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Pangkal Pinang'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Papeete'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Parbhani'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Pathankot'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Patiala'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Patras'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Pavlodar'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Pemalang'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Peoria'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Pereira'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Phnom Penh'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Pingxiang'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Pjatigorsk'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Plock'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Poá'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Ponce'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Pontianak'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Poços de Caldas'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Portoviejo'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Probolinggo'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Pudukkottai'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Pune'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Purnea (Purnia)'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Purwakarta'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Pyongyang'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Qalyub'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Qinhuangdao'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Qomsheh'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Quilmes'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Rae Bareli'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Rajkot'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Rampur'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Rancagua'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Ranchi'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Richmond Hill'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Rio Claro'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Rizhao'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Roanoke'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Ríobamba'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Rockford'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Ruse'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Rustenburg'
+Warning (code 1292): Truncated incorrect DOUBLE value: '´s-Hertogenbosch'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Saarbrücken'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Sagamihara'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Saint Louis'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Saint-Denis'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Salé'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Salala'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Salamanca'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Salinas'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Salzburg'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Sambhal'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'San Bernardino'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'San Felipe de Puerto Plata'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'San Felipe del Progreso'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'San Juan Bautista Tuxtepec'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'San Lorenzo'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'San Miguel de Tucumán'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Sanaa'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Santa Brbara dOeste'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Santa Fé'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Santa Rosa'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Santiago de Compostela'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Santiago de los Caballeros'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Santo André'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Sanya'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Sasebo'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Satna'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Sawhaj'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Serpuhov'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Shahr-e Kord'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Shanwei'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Shaoguan'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Sharja'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Shenzhen'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Shikarpur'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Shimoga'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Shimonoseki'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Shivapuri'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Shubra al-Khayma'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Siegen'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Siliguri (Shiliguri)'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Simferopol'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Sincelejo'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Sirjan'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Sivas'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Skikda'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Smolensk'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'São Bernardo do Campo'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'São Leopoldo'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Sogamoso'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Sokoto'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Songkhla'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Sorocaba'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Soshanguve'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Sousse'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'South Hill'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Southampton'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Southend-on-Sea'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Southport'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Springs'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Stara Zagora'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Sterling Heights'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Stockport'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Sucre'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Suihua'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Sullana'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Sultanbeyli'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Sumqayit'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Sumy'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Sungai Petani'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Sunnyvale'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Surakarta'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Syktyvkar'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Syrakusa'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Székesfehérvár'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Tabora'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Tabriz'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Tabuk'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Tafuna'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Taguig'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Taizz'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Talavera'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Tallahassee'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Tama'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Tambaram'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Tanauan'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Tandil'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Tangail'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Tanshui'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Tanza'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Tarlac'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Tarsus'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Tartu'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Tšeboksary'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Tegal'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Tel Aviv-Jaffa'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Tete'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Tianjin'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Tiefa'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Tieli'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Tokat'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Tonghae'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Tongliao'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Torreón'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Touliu'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Toulon'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Toulouse'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Tórshavn'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Tsaotun'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Tsuyama'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Tuguegarao'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Tychy'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Udaipur'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Udine'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Ueda'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Uijongbu'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Uluberia'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Urawa'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Uruapan'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Usak'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Usolje-Sibirskoje'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Uttarpara-Kotrung'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Vaduz'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Valencia'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Valle de la Pascua'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Valle de Santiago'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Valparai'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Vancouver'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Varanasi (Benares)'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Vicente López'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Vijayawada'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Vila Velha'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Vilnius'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Vinh'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Vitória de Santo Antão'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Warren'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Weifang'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Witten'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Woodridge'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Wroclaw'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Xi´angfan'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Xi´angtan'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Xintai'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Xinxiang'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Yamuna Nagar'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Yangor'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Yantai'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Yaoundé'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Yerevan'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Yinchuan'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Yingkou'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'York'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Yuncheng'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Yuzhou'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Zalantun'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Zanzibar'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Zaoyang'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Zapopan'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Zaria'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Zeleznogorsk'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Zhezqazghan'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Zhoushan'
+Warning (code 1292): Truncated incorrect DOUBLE value: 'Ziguinchor'
+ MySQL  localhost:3306 ssl  sakila  SQL > select count(*) from country;
++----------+
+| count(*) |
++----------+
+|      109 |
++----------+
+1 row in set (0.0096 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > select count(*) from city;
++----------+
+| count(*) |
++----------+
+|      600 |
++----------+
+1 row in set (0.0028 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > desc city;
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+| Field       | Type              | Null | Key | Default           | Extra                                         |
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+| city_id     | smallint unsigned | NO   | PRI | NULL              | auto_increment                                |
+| city        | varchar(50)       | NO   |     | NULL              |                                               |
+| country_id  | smallint unsigned | NO   | MUL | NULL              |                                               |
+| last_update | timestamp         | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+4 rows in set (0.0019 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > desc country;
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+| Field       | Type              | Null | Key | Default           | Extra                                         |
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+| country_id  | smallint unsigned | NO   | PRI | NULL              | auto_increment                                |
+| country     | varchar(50)       | NO   |     | NULL              |                                               |
+| last_update | timestamp         | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+3 rows in set (0.0021 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > select count(*) from city where countrycode="MEX";
+ERROR: 1054 (42S22): Unknown column 'countrycode' in 'where clause'
+ MySQL  localhost:3306 ssl  sakila  SQL > select count(*) from city where countrycode="MEX";
+ERROR: 1054 (42S22): Unknown column 'countrycode' in 'where clause'
+ MySQL  localhost:3306 ssl  sakila  SQL > SELECT a.name, count(*) from country a inner join
+                                       -> city b on a.code=b.countrycode group by a.code by count(*);
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'by count(*)' at line 2
+ MySQL  localhost:3306 ssl  sakila  SQL > SELECT a.name, count(*) from country a inner join city b on a.code=b.countrycode group by a.code by count(*) desc limit 1;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'by count(*) desc limit 1' at line 1
+ MySQL  localhost:3306 ssl  sakila  SQL > SELECT a.country, count(*) from country a inner join city b on a.code=b.countrycode group by
+                                       -> a.code;
+ERROR: 1054 (42S22): Unknown column 'a.code' in 'on clause'
+ MySQL  localhost:3306 ssl  sakila  SQL > SELECT a.country, count(*) from country a inner join city b on a.code=b.countrycode group by  a.country_id;
+ERROR: 1054 (42S22): Unknown column 'a.code' in 'on clause'
+ MySQL  localhost:3306 ssl  sakila  SQL > SELECT a.country, count(*) from country a inner join city b on a.countrycode=b.countrycode group by  a.country_id;
+ERROR: 1054 (42S22): Unknown column 'a.countrycode' in 'on clause'
+ MySQL  localhost:3306 ssl  sakila  SQL > SELECT a.country, count(*) from country a inner join city b on a.country_id=b.country_id group by  a.country_id;
++---------------------------------------+----------+
+| country                               | count(*) |
++---------------------------------------+----------+
+| Afghanistan                           |        1 |
+| Algeria                               |        3 |
+| American Samoa                        |        1 |
+| Angola                                |        2 |
+| Anguilla                              |        1 |
+| Argentina                             |       13 |
+| Armenia                               |        1 |
+| Australia                             |        1 |
+| Austria                               |        3 |
+| Azerbaijan                            |        2 |
+| Bahrain                               |        1 |
+| Bangladesh                            |        3 |
+| Belarus                               |        2 |
+| Bolivia                               |        2 |
+| Brazil                                |       28 |
+| Brunei                                |        1 |
+| Bulgaria                              |        2 |
+| Cambodia                              |        2 |
+| Cameroon                              |        2 |
+| Canada                                |        7 |
+| Chad                                  |        1 |
+| Chile                                 |        3 |
+| China                                 |       53 |
+| Colombia                              |        6 |
+| Congo, The Democratic Republic of the |        2 |
+| Czech Republic                        |        1 |
+| Dominican Republic                    |        3 |
+| Ecuador                               |        3 |
+| Egypt                                 |        6 |
+| Estonia                               |        1 |
+| Ethiopia                              |        1 |
+| Faroe Islands                         |        1 |
+| Finland                               |        1 |
+| France                                |        4 |
+| French Guiana                         |        1 |
+| French Polynesia                      |        2 |
+| Gambia                                |        1 |
+| Germany                               |        7 |
+| Greece                                |        2 |
+| Greenland                             |        1 |
+| Holy See (Vatican City State)         |        1 |
+| Hong Kong                             |        1 |
+| Hungary                               |        1 |
+| India                                 |       60 |
+| Indonesia                             |       14 |
+| Iran                                  |        8 |
+| Iraq                                  |        1 |
+| Israel                                |        4 |
+| Italy                                 |        7 |
+| Japan                                 |       31 |
+| Kazakstan                             |        2 |
+| Kenya                                 |        2 |
+| Kuwait                                |        1 |
+| Latvia                                |        2 |
+| Liechtenstein                         |        1 |
+| Lithuania                             |        1 |
+| Madagascar                            |        1 |
+| Malawi                                |        1 |
+| Malaysia                              |        3 |
+| Mexico                                |       30 |
+| Moldova                               |        1 |
+| Morocco                               |        3 |
+| Mozambique                            |        3 |
+| Myanmar                               |        2 |
+| Nauru                                 |        1 |
+| Nepal                                 |        1 |
+| Netherlands                           |        5 |
+| New Zealand                           |        1 |
+| Nigeria                               |       13 |
+| North Korea                           |        1 |
+| Oman                                  |        2 |
+| Pakistan                              |        5 |
+| Paraguay                              |        3 |
+| Peru                                  |        4 |
+| Philippines                           |       20 |
+| Poland                                |        8 |
+| Puerto Rico                           |        2 |
+| Romania                               |        2 |
+| Réunion                               |        1 |
+| Russian Federation                    |       28 |
+| Saint Vincent and the Grenadines      |        1 |
+| Saudi Arabia                          |        5 |
+| Senegal                               |        1 |
+| Slovakia                              |        1 |
+| South Africa                          |       11 |
+| South Korea                           |        5 |
+| Spain                                 |        5 |
+| Sri Lanka                             |        1 |
+| Sudan                                 |        2 |
+| Sweden                                |        1 |
+| Switzerland                           |        3 |
+| Taiwan                                |       10 |
+| Tanzania                              |        3 |
+| Thailand                              |        3 |
+| Tonga                                 |        1 |
+| Tunisia                               |        1 |
+| Turkey                                |       15 |
+| Turkmenistan                          |        1 |
+| Tuvalu                                |        1 |
+| Ukraine                               |        6 |
+| United Arab Emirates                  |        3 |
+| United Kingdom                        |        8 |
+| United States                         |       35 |
+| Venezuela                             |        7 |
+| Vietnam                               |        6 |
+| Virgin Islands, U.S.                  |        1 |
+| Yemen                                 |        4 |
+| Yugoslavia                            |        2 |
+| Zambia                                |        1 |
++---------------------------------------+----------+
+109 rows in set (0.0025 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > SELECT a.country, count(*) from country a inner join city b on a.country_id=b.country_id group by  a.country_id order by count(*) asc limit 1;;
++-------------+----------+
+| country     | count(*) |
++-------------+----------+
+| Afghanistan |        1 |
++-------------+----------+
+1 row in set (0.0026 sec)
+ERROR: 1065 (42000): Query was empty
+ MySQL  localhost:3306 ssl  sakila  SQL > SELECT a.country, count(*) from country a inner join city b on a.country_id=b.country_id group by  a.country_id order by count(*) desc limit 1;;
++---------+----------+
+| country | count(*) |
++---------+----------+
+| India   |       60 |
++---------+----------+
+1 row in set (0.0021 sec)
+ERROR: 1065 (42000): Query was empty
+ MySQL  localhost:3306 ssl  sakila  SQL >
