@@ -1,0 +1,699 @@
+PRACTICA 11_
+ MySQL  JS > \sql
+Switching to SQL mode... Commands end with ;
+ MySQL  SQL > \connect --mc root@localhost
+Creating a Classic session to 'root@localhost'
+Fetching global names for auto-completion... Press ^C to stop.
+Your MySQL connection id is 13
+Server version: 8.0.37 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+ MySQL  localhost:3306 ssl  SQL > use empresa2;
+Default schema set to `empresa2`.
+Fetching global names, object names from `empresa2` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  empresa2  SQL > show tables;
++--------------------+
+| Tables_in_empresa2 |
++--------------------+
+| countries          |
+| departments        |
+| employees          |
+| job_history        |
+| jobs               |
+| locations          |
+| regions            |
++--------------------+
+7 rows in set (0.0021 sec)
+ MySQL  localhost:3306 ssl  empresa2  SQL > desc departments;
++-----------------+--------------+------+-----+---------+-------+
+| Field           | Type         | Null | Key | Default | Extra |
++-----------------+--------------+------+-----+---------+-------+
+| DEPARTMENT_ID   | decimal(4,0) | NO   | PRI | 0       |       |
+| DEPARTMENT_NAME | varchar(30)  | NO   |     | NULL    |       |
+| MANAGER_ID      | decimal(6,0) | YES  | MUL | NULL    |       |
+| LOCATION_ID     | decimal(4,0) | YES  | MUL | NULL    |       |
++-----------------+--------------+------+-----+---------+-------+
+4 rows in set (0.0050 sec)
+ MySQL  localhost:3306 ssl  empresa2  SQL > desc employees;
++----------------+--------------+------+-----+---------+-------+
+| Field          | Type         | Null | Key | Default | Extra |
++----------------+--------------+------+-----+---------+-------+
+| EMPLOYEE_ID    | decimal(6,0) | NO   | PRI | 0       |       |
+| FIRST_NAME     | varchar(20)  | YES  |     | NULL    |       |
+| LAST_NAME      | varchar(25)  | NO   | MUL | NULL    |       |
+| EMAIL          | varchar(25)  | NO   | UNI | NULL    |       |
+| PHONE_NUMBER   | varchar(20)  | YES  |     | NULL    |       |
+| HIRE_DATE      | date         | NO   |     | NULL    |       |
+| JOB_ID         | varchar(10)  | NO   | MUL | NULL    |       |
+| SALARY         | decimal(8,2) | YES  |     | NULL    |       |
+| COMMISSION_PCT | decimal(2,2) | YES  |     | NULL    |       |
+| MANAGER_ID     | decimal(6,0) | YES  | MUL | NULL    |       |
+| DEPARTMENT_ID  | decimal(4,0) | YES  | MUL | NULL    |       |
++----------------+--------------+------+-----+---------+-------+
+11 rows in set (0.0021 sec)
+
+ MySQL  localhost:3306 ssl  empresa2  SQL > select a.first_name, b.department_name from employees a  left join departments b  on a.department_id=b.department_id;
++-------------+------------------+
+| first_name  | department_name  |
++-------------+------------------+
+| Steven      | Executive        |
+| Neena       | Executive        |
+| Lex         | Executive        |
+| Alexander   | IT               |
+| Bruce       | IT               |
+| David       | IT               |
+| Valli       | IT               |
+| Diana       | IT               |
+| Nancy       | Finance          |
+| Daniel      | Finance          |
+| John        | Finance          |
+| Ismael      | Finance          |
+| Jose Manuel | Finance          |
+| Luis        | Finance          |
+| Den         | Purchasing       |
+| Alexander   | Purchasing       |
+| Shelli      | Purchasing       |
+| Sigal       | Purchasing       |
+| Guy         | Purchasing       |
+| Karen       | Purchasing       |
+| Matthew     | Shipping         |
+| Adam        | Shipping         |
+| Payam       | Shipping         |
+| Shanta      | Shipping         |
+| Kevin       | Shipping         |
+| Julia       | Shipping         |
+| Irene       | Shipping         |
+| James       | Shipping         |
+| Steven      | Shipping         |
+| Laura       | Shipping         |
+| Mozhe       | Shipping         |
+| James       | Shipping         |
+| TJ          | Shipping         |
+| Jason       | Shipping         |
+| Michael     | Shipping         |
+| Ki          | Shipping         |
+| Hazel       | Shipping         |
+| Renske      | Shipping         |
+| Stephen     | Shipping         |
+| John        | Shipping         |
+| Joshua      | Shipping         |
+| Trenna      | Shipping         |
+| Curtis      | Shipping         |
+| Randall     | Shipping         |
+| Peter       | Shipping         |
+| John        | Sales            |
+| Karen       | Sales            |
+| Alberto     | Sales            |
+| Gerald      | Sales            |
+| Eleni       | Sales            |
+| Peter       | Sales            |
+| David       | Sales            |
+| Peter       | Sales            |
+| Christopher | Sales            |
+| Nanette     | Sales            |
+| Oliver      | Sales            |
+| Janette     | Sales            |
+| Patrick     | Sales            |
+| Allan       | Sales            |
+| Lindsey     | Sales            |
+| Louise      | Sales            |
+| Sarath      | Sales            |
+| Clara       | Sales            |
+| Danielle    | Sales            |
+| Mattea      | Sales            |
+| David       | Sales            |
+| Sundar      | Sales            |
+| Amit        | Sales            |
+| Lisa        | Sales            |
+| Harrison    | Sales            |
+| Tayler      | Sales            |
+| William     | Sales            |
+| Elizabeth   | Sales            |
+| Sundita     | Sales            |
+| Ellen       | Sales            |
+| Alyssa      | Sales            |
+| Jonathon    | Sales            |
+| Jack        | Sales            |
+| Kimberely   | NULL             |
+| Charles     | Sales            |
+| Winston     | Shipping         |
+| Jean        | Shipping         |
+| Martha      | Shipping         |
+| Girard      | Shipping         |
+| Nandita     | Shipping         |
+| Alexis      | Shipping         |
+| Julia       | Shipping         |
+| Anthony     | Shipping         |
+| Kelly       | Shipping         |
+| Jennifer    | Shipping         |
+| Timothy     | Shipping         |
+| Randall     | Shipping         |
+| Sarah       | Shipping         |
+| Britney     | Shipping         |
+| Samuel      | Shipping         |
+| Vance       | Shipping         |
+| Alana       | Shipping         |
+| Kevin       | Shipping         |
+| Donald      | Shipping         |
+| Douglas     | Shipping         |
+| Jennifer    | Administration   |
+| Michael     | Marketing        |
+| Pat         | Marketing        |
+| Susan       | Human Resources  |
+| Hermann     | Public Relations |
+| Shelley     | Accounting       |
+| William     | Accounting       |
++---^C--------+------------------+          
+
+ MySQL  localhost:3306 ssl  empresa2  SQL > select a.manager_id, b.department_name from employees a left join departments b on a.department_id=b.department_id;
++------------+------------------+
+| manager_id | department_name  |
++------------+------------------+
+|          0 | Executive        |
+|        100 | Executive        |
+|        100 | Executive        |
+|        102 | IT               |
+|        103 | IT               |
+|        103 | IT               |
+|        103 | IT               |
+|        103 | IT               |
+|        101 | Finance          |
+|        108 | Finance          |
+|        108 | Finance          |
+|        108 | Finance          |
+|        108 | Finance          |
+|        108 | Finance          |
+|        100 | Purchasing       |
+|        114 | Purchasing       |
+|        114 | Purchasing       |
+|        114 | Purchasing       |
+|        114 | Purchasing       |
+|        114 | Purchasing       |
+|        100 | Shipping         |
+|        100 | Shipping         |
+|        100 | Shipping         |
+|        100 | Shipping         |
+|        100 | Shipping         |
+|        120 | Shipping         |
+|        120 | Shipping         |
+|        120 | Shipping         |
+|        120 | Shipping         |
+|        121 | Shipping         |
+|        121 | Shipping         |
+|        121 | Shipping         |
+|        121 | Shipping         |
+|        122 | Shipping         |
+|        122 | Shipping         |
+|        122 | Shipping         |
+|        122 | Shipping         |
+|        123 | Shipping         |
+|        123 | Shipping         |
+|        123 | Shipping         |
+|        123 | Shipping         |
+|        124 | Shipping         |
+|        124 | Shipping         |
+|        124 | Shipping         |
+|        124 | Shipping         |
+|        100 | Sales            |
+|        100 | Sales            |
+|        100 | Sales            |
+|        100 | Sales            |
+|        100 | Sales            |
+|        145 | Sales            |
+|        145 | Sales            |
+|        145 | Sales            |
+|        145 | Sales            |
+|        145 | Sales            |
+|        145 | Sales            |
+|        146 | Sales            |
+|        146 | Sales            |
+|        146 | Sales            |
+|        146 | Sales            |
+|        146 | Sales            |
+|        146 | Sales            |
+|        147 | Sales            |
+|        147 | Sales            |
+|        147 | Sales            |
+|        147 | Sales            |
+|        147 | Sales            |
+|        147 | Sales            |
+|        148 | Sales            |
+|        148 | Sales            |
+|        148 | Sales            |
+|        148 | Sales            |
+|        148 | Sales            |
+|        148 | Sales            |
+|        149 | Sales            |
+|        149 | Sales            |
+|        149 | Sales            |
+|        149 | Sales            |
+|        149 | NULL             |
+|        149 | Sales            |
+|        120 | Shipping         |
+|        120 | Shipping         |
+|        120 | Shipping         |
+|        120 | Shipping         |
+|        121 | Shipping         |
+|        121 | Shipping         |
+|        121 | Shipping         |
+|        121 | Shipping         |
+|        122 | Shipping         |
+|        122 | Shipping         |
+|        122 | Shipping         |
+|        122 | Shipping         |
+|        123 | Shipping         |
+|        123 | Shipping         |
+|        123 | Shipping         |
+|        123 | Shipping         |
+|        124 | Shipping         |
+|        124 | Shipping         |
+|        124 | Shipping         |
+|        124 | Shipping         |
+|        101 | Administration   |
+|        100 | Marketing        |
+|        201 | Marketing        |
+|        101 | Human Resources  |
+|        101 | Public Relations |
+|        101 | Accounting       |
+|        205 | Accounting       |
++------------+------------------+
+107 rows in set (0.0012 sec)
+ MySQL  localhost:3306 ssl  empresa2  SQL > MySQL  localhost:3306 ssl  empresa2  SQL > select a.first_name, b.department_name, c.job_title, d.start_date, d.end_date from employees a left join departments b on a.department_id=b.department_id left join jobs c  on a.job_id=c.job_id left join job_history d on c.job_id=d.job_id;
++-------------+------------------+---------------------------------+------------+------------+
+| first_name  | department_name  | job_title                       | start_date | end_date   |
++-------------+------------------+---------------------------------+------------+------------+
+| Steven      | Executive        | President                       | NULL       | NULL       |
+| Neena       | Executive        | Administration Vice President   | NULL       | NULL       |
+| Lex         | Executive        | Administration Vice President   | NULL       | NULL       |
+| Alexander   | IT               | Programmer                      | 1993-01-13 | 1998-07-24 |
+| Bruce       | IT               | Programmer                      | 1993-01-13 | 1998-07-24 |
+| David       | IT               | Programmer                      | 1993-01-13 | 1998-07-24 |
+| Valli       | IT               | Programmer                      | 1993-01-13 | 1998-07-24 |
+| Diana       | IT               | Programmer                      | 1993-01-13 | 1998-07-24 |
+| Nancy       | Finance          | Finance Manager                 | NULL       | NULL       |
+| Daniel      | Finance          | Accountant                      | NULL       | NULL       |
+| John        | Finance          | Accountant                      | NULL       | NULL       |
+| Ismael      | Finance          | Accountant                      | NULL       | NULL       |
+| Jose Manuel | Finance          | Accountant                      | NULL       | NULL       |
+| Luis        | Finance          | Accountant                      | NULL       | NULL       |
+| Den         | Purchasing       | Purchasing Manager              | NULL       | NULL       |
+| Alexander   | Purchasing       | Purchasing Clerk                | NULL       | NULL       |
+| Shelli      | Purchasing       | Purchasing Clerk                | NULL       | NULL       |
+| Sigal       | Purchasing       | Purchasing Clerk                | NULL       | NULL       |
+| Guy         | Purchasing       | Purchasing Clerk                | NULL       | NULL       |
+| Karen       | Purchasing       | Purchasing Clerk                | NULL       | NULL       |
+| Matthew     | Shipping         | Stock Manager                   | NULL       | NULL       |
+| Adam        | Shipping         | Stock Manager                   | NULL       | NULL       |
+| Payam       | Shipping         | Stock Manager                   | NULL       | NULL       |
+| Shanta      | Shipping         | Stock Manager                   | NULL       | NULL       |
+| Kevin       | Shipping         | Stock Manager                   | NULL       | NULL       |
+| Julia       | Shipping         | Stock Clerk                     | 1998-03-24 | 1999-12-31 |
+| Julia       | Shipping         | Stock Clerk                     | 1999-01-01 | 1999-12-31 |
+| Irene       | Shipping         | Stock Clerk                     | 1998-03-24 | 1999-12-31 |
+| Irene       | Shipping         | Stock Clerk                     | 1999-01-01 | 1999-12-31 |
+| James       | Shipping         | Stock Clerk                     | 1998-03-24 | 1999-12-31 |
+| James       | Shipping         | Stock Clerk                     | 1999-01-01 | 1999-12-31 |
+| Steven      | Shipping         | Stock Clerk                     | 1998-03-24 | 1999-12-31 |
+| Steven      | Shipping         | Stock Clerk                     | 1999-01-01 | 1999-12-31 |
+| Laura       | Shipping         | Stock Clerk                     | 1998-03-24 | 1999-12-31 |
+| Laura       | Shipping         | Stock Clerk                     | 1999-01-01 | 1999-12-31 |
+| Mozhe       | Shipping         | Stock Clerk                     | 1998-03-24 | 1999-12-31 |
+| Mozhe       | Shipping         | Stock Clerk                     | 1999-01-01 | 1999-12-31 |
+| James       | Shipping         | Stock Clerk                     | 1998-03-24 | 1999-12-31 |
+| James       | Shipping         | Stock Clerk                     | 1999-01-01 | 1999-12-31 |
+| TJ          | Shipping         | Stock Clerk                     | 1998-03-24 | 1999-12-31 |
+| TJ          | Shipping         | Stock Clerk                     | 1999-01-01 | 1999-12-31 |
+| Jason       | Shipping         | Stock Clerk                     | 1998-03-24 | 1999-12-31 |
+| Jason       | Shipping         | Stock Clerk                     | 1999-01-01 | 1999-12-31 |
+| Michael     | Shipping         | Stock Clerk                     | 1998-03-24 | 1999-12-31 |
+| Michael     | Shipping         | Stock Clerk                     | 1999-01-01 | 1999-12-31 |
+| Ki          | Shipping         | Stock Clerk                     | 1998-03-24 | 1999-12-31 |
+| Ki          | Shipping         | Stock Clerk                     | 1999-01-01 | 1999-12-31 |
+| Hazel       | Shipping         | Stock Clerk                     | 1998-03-24 | 1999-12-31 |
+| Hazel       | Shipping         | Stock Clerk                     | 1999-01-01 | 1999-12-31 |
+| Renske      | Shipping         | Stock Clerk                     | 1998-03-24 | 1999-12-31 |
+| Renske      | Shipping         | Stock Clerk                     | 1999-01-01 | 1999-12-31 |
+| Stephen     | Shipping         | Stock Clerk                     | 1998-03-24 | 1999-12-31 |
+| Stephen     | Shipping         | Stock Clerk                     | 1999-01-01 | 1999-12-31 |
+| John        | Shipping         | Stock Clerk                     | 1998-03-24 | 1999-12-31 |
+| John        | Shipping         | Stock Clerk                     | 1999-01-01 | 1999-12-31 |
+| Joshua      | Shipping         | Stock Clerk                     | 1998-03-24 | 1999-12-31 |
+| Joshua      | Shipping         | Stock Clerk                     | 1999-01-01 | 1999-12-31 |
+| Trenna      | Shipping         | Stock Clerk                     | 1998-03-24 | 1999-12-31 |
+| Trenna      | Shipping         | Stock Clerk                     | 1999-01-01 | 1999-12-31 |
+| Curtis      | Shipping         | Stock Clerk                     | 1998-03-24 | 1999-12-31 |
+| Curtis      | Shipping         | Stock Clerk                     | 1999-01-01 | 1999-12-31 |
+| Randall     | Shipping         | Stock Clerk                     | 1998-03-24 | 1999-12-31 |
+| Randall     | Shipping         | Stock Clerk                     | 1999-01-01 | 1999-12-31 |
+| Peter       | Shipping         | Stock Clerk                     | 1998-03-24 | 1999-12-31 |
+| Peter       | Shipping         | Stock Clerk                     | 1999-01-01 | 1999-12-31 |
+| John        | Sales            | Sales Manager                   | 1999-01-01 | 1999-12-31 |
+| Karen       | Sales            | Sales Manager                   | 1999-01-01 | 1999-12-31 |
+| Alberto     | Sales            | Sales Manager                   | 1999-01-01 | 1999-12-31 |
+| Gerald      | Sales            | Sales Manager                   | 1999-01-01 | 1999-12-31 |
+| Eleni       | Sales            | Sales Manager                   | 1999-01-01 | 1999-12-31 |
+| Peter       | Sales            | Sales Representative            | 1998-03-24 | 1998-12-31 |
+| David       | Sales            | Sales Representative            | 1998-03-24 | 1998-12-31 |
+| Peter       | Sales            | Sales Representative            | 1998-03-24 | 1998-12-31 |
+| Christopher | Sales            | Sales Representative            | 1998-03-24 | 1998-12-31 |
+| Nanette     | Sales            | Sales Representative            | 1998-03-24 | 1998-12-31 |
+| Oliver      | Sales            | Sales Representative            | 1998-03-24 | 1998-12-31 |
+| Janette     | Sales            | Sales Representative            | 1998-03-24 | 1998-12-31 |
+| Patrick     | Sales            | Sales Representative            | 1998-03-24 | 1998-12-31 |
+| Allan       | Sales            | Sales Representative            | 1998-03-24 | 1998-12-31 |
+| Lindsey     | Sales            | Sales Representative            | 1998-03-24 | 1998-12-31 |
+| Louise      | Sales            | Sales Representative            | 1998-03-24 | 1998-12-31 |
+| Sarath      | Sales            | Sales Representative            | 1998-03-24 | 1998-12-31 |
+| Clara       | Sales            | Sales Representative            | 1998-03-24 | 1998-12-31 |
+| Danielle    | Sales            | Sales Representative            | 1998-03-24 | 1998-12-31 |
+| Mattea      | Sales            | Sales Representative            | 1998-03-24 | 1998-12-31 |
+| David       | Sales            | Sales Representative            | 1998-03-24 | 1998-12-31 |
+| Sundar      | Sales            | Sales Representative            | 1998-03-24 | 1998-12-31 |
+| Amit        | Sales            | Sales Representative            | 1998-03-24 | 1998-12-31 |
+| Lisa        | Sales            | Sales Representative            | 1998-03-24 | 1998-12-31 |
+| Harrison    | Sales            | Sales Representative            | 1998-03-24 | 1998-12-31 |
+| Tayler      | Sales            | Sales Representative            | 1998-03-24 | 1998-12-31 |
+| William     | Sales            | Sales Representative            | 1998-03-24 | 1998-12-31 |
+| Elizabeth   | Sales            | Sales Representative            | 1998-03-24 | 1998-12-31 |
+| Sundita     | Sales            | Sales Representative            | 1998-03-24 | 1998-12-31 |
+| Ellen       | Sales            | Sales Representative            | 1998-03-24 | 1998-12-31 |
+| Alyssa      | Sales            | Sales Representative            | 1998-03-24 | 1998-12-31 |
+| Jonathon    | Sales            | Sales Representative            | 1998-03-24 | 1998-12-31 |
+| Jack        | Sales            | Sales Representative            | 1998-03-24 | 1998-12-31 |
+| Kimberely   | NULL             | Sales Representative            | 1998-03-24 | 1998-12-31 |
+| Charles     | Sales            | Sales Representative            | 1998-03-24 | 1998-12-31 |
+| Winston     | Shipping         | Shipping Clerk                  | NULL       | NULL       |
+| Jean        | Shipping         | Shipping Clerk                  | NULL       | NULL       |
+| Martha      | Shipping         | Shipping Clerk                  | NULL       | NULL       |
+| Girard      | Shipping         | Shipping Clerk                  | NULL       | NULL       |
+| Nandita     | Shipping         | Shipping Clerk                  | NULL       | NULL       |
+| Alexis      | Shipping         | Shipping Clerk                  | NULL       | NULL       |
+| Julia       | Shipping         | Shipping Clerk                  | NULL       | NULL       |
+| Anthony     | Shipping         | Shipping Clerk                  | NULL       | NULL       |
+| Kelly       | Shipping         | Shipping Clerk                  | NULL       | NULL       |
+| Jennifer    | Shipping         | Shipping Clerk                  | NULL       | NULL       |
+| Timothy     | Shipping         | Shipping Clerk                  | NULL       | NULL       |
+| Randall     | Shipping         | Shipping Clerk                  | NULL       | NULL       |
+| Sarah       | Shipping         | Shipping Clerk                  | NULL       | NULL       |
+| Britney     | Shipping         | Shipping Clerk                  | NULL       | NULL       |
+| Samuel      | Shipping         | Shipping Clerk                  | NULL       | NULL       |
+| Vance       | Shipping         | Shipping Clerk                  | NULL       | NULL       |
+| Alana       | Shipping         | Shipping Clerk                  | NULL       | NULL       |
+| Kevin       | Shipping         | Shipping Clerk                  | NULL       | NULL       |
+| Donald      | Shipping         | Shipping Clerk                  | NULL       | NULL       |
+| Douglas     | Shipping         | Shipping Clerk                  | NULL       | NULL       |
+| Jennifer    | Administration   | Administration Assistant        | 1987-09-17 | 1993-06-17 |
+| Michael     | Marketing        | Marketing Manager               | NULL       | NULL       |
+| Pat         | Marketing        | Marketing Representative        | 1996-02-17 | 1999-12-19 |
+| Susan       | Human Resources  | Human Resources Representative  | NULL       | NULL       |
+| Hermann     | Public Relations | Public Relations Representative | NULL       | NULL       |
+| Shelley     | Accounting       | Accounting Manager              | 1993-10-28 | 1997-03-15 |
+| William     | Accounting       | Public Accountant               | 1989-09-21 | 1993-10-27 |
+| William     | Accounting       | Public Accountant               | 1994-07-01 | 1998-12-31 |
++-------------+------------------+---------------------------------+------------+------------+
+128 rows in set (0.0228 sec)
+ MySQL  localhost:3306 ssl  empresa2  SQL > select a.department_name, b.street_address, b.city, c.country_name, d.region_name
+                                         -> from departments a left join locations b
+                                         -> on a.location_id=b.location_id
+                                         -> left join countries c
+                                         -> on b.country_id=c.country_id
+                                         -> left join regions
+                                         -> d
+                                         -> on c.region_id=d.region_id;
++----------------------+-----------------------+---------------------+--------------------------+-------------+
+| department_name      | street_address        | city                | country_name             | region_name |
++----------------------+-----------------------+---------------------+--------------------------+-------------+
+| Administration       | 2004 Charade Rd       | Seattle             | United States of America | Americas    |
+| Marketing            | 147 Spadina Ave       | Toronto             | Canada                   | Americas    |
+| Purchasing           | 2004 Charade Rd       | Seattle             | United States of America | Americas    |
+| Human Resources      | 8204 Arthur St        | London              | United Kingdom           | Europe      |
+| Shipping             | 2011 Interiors Blvd   | South San Francisco | United States of America | Americas    |
+| IT                   | 2014 Jabberwocky Rd   | Southlake           | United States of America | Americas    |
+| Public Relations     | Schwanthalerstr. 7031 | Munich              | Germany                  | Europe      |
+| Sales                | "Magdalen Centre      | OX9 9ZB             | NULL                     | NULL        |
+| Executive            | 2004 Charade Rd       | Seattle             | United States of America | Americas    |
+| Finance              | 2004 Charade Rd       | Seattle             | United States of America | Americas    |
+| Accounting           | 2004 Charade Rd       | Seattle             | United States of America | Americas    |
+| Treasury             | 2004 Charade Rd       | Seattle             | United States of America | Americas    |
+| Corporate Tax        | 2004 Charade Rd       | Seattle             | United States of America | Americas    |
+| Control And Credit   | 2004 Charade Rd       | Seattle             | United States of America | Americas    |
+| Shareholder Services | 2004 Charade Rd       | Seattle             | United States of America | Americas    |
+| Benefits             | 2004 Charade Rd       | Seattle             | United States of America | Americas    |
+| Manufacturing        | 2004 Charade Rd       | Seattle             | United States of America | Americas    |
+| Construction         | 2004 Charade Rd       | Seattle             | United States of America | Americas    |
+| Contracting          | 2004 Charade Rd       | Seattle             | United States of America | Americas    |
+| Operations           | 2004 Charade Rd       | Seattle             | United States of America | Americas    |
+| IT Support           | 2004 Charade Rd       | Seattle             | United States of America | Americas    |
+| NOC                  | 2004 Charade Rd       | Seattle             | United States of America | Americas    |
+| IT Helpdesk          | 2004 Charade Rd       | Seattle             | United States of America | Americas    |
+| Government Sales     | 2004 Charade Rd       | Seattle             | United States of America | Americas    |
+| Retail Sales         | 2004 Charade Rd       | Seattle             | United States of America | Americas    |
+| Recruiting           | 2004 Charade Rd       | Seattle             | United States of America | Americas    |
+| Payroll              | 2004 Charade Rd       | Seattle             | United States of America | Americas    |
++----------------------+-----------------------+---------------------+--------------------------+-------------+
+27 rows in set (0.0093 sec)
+ MySQL  localhost:3306 ssl  empresa2  SQL > select a.frist_name, b.manager_id from employees a
+                                         -> left join departments b
+                                         -> on a.manager_id=b.manager_id;
+ERROR: 1054 (42S22): Unknown column 'a.frist_name' in 'field list'
+ MySQL  localhost:3306 ssl  empresa2  SQL > select a.first_name, b.manager_id from employees a left join departments b on a.manager_id=b.manager_id;
+
++-------------+------------+
+| first_name  | manager_id |
++-------------+------------+
+| Steven      |          0 |
+| Steven      |          0 |
+| Steven      |          0 |
+| Steven      |          0 |
+| Steven      |          0 |
+| Steven      |          0 |
+| Steven      |          0 |
+| Steven      |          0 |
+| Steven      |          0 |
+| Steven      |          0 |
+| Steven      |          0 |
+| Steven      |          0 |
+| Steven      |          0 |
+| Steven      |          0 |
+| Steven      |          0 |
+| Steven      |          0 |
+| Neena       |        100 |
+| Lex         |        100 |
+| Alexander   |       NULL |
+| Bruce       |        103 |
+| David       |        103 |
+| Valli       |        103 |
+| Diana       |        103 |
+| Nancy       |       NULL |
+| Daniel      |        108 |
+| John        |        108 |
+| Ismael      |        108 |
+| Jose Manuel |        108 |
+| Luis        |        108 |
+| Den         |        100 |
+| Alexander   |        114 |
+| Shelli      |        114 |
+| Sigal       |        114 |
+| Guy         |        114 |
+| Karen       |        114 |
+| Matthew     |        100 |
+| Adam        |        100 |
+| Payam       |        100 |
+| Shanta      |        100 |
+| Kevin       |        100 |
+| Julia       |       NULL |
+| Irene       |       NULL |
+| James       |       NULL |
+| Steven      |       NULL |
+| Laura       |        121 |
+| Mozhe       |        121 |
+| James       |        121 |
+| TJ          |        121 |
+| Jason       |       NULL |
+| Michael     |       NULL |
+| Ki          |       NULL |
+| Hazel       |       NULL |
+| Renske      |       NULL |
+| Stephen     |       NULL |
+| John        |       NULL |
+| Joshua      |       NULL |
+| Trenna      |       NULL |
+| Curtis      |       NULL |
+| Randall     |       NULL |
+| Peter       |       NULL |
+| John        |        100 |
+| Karen       |        100 |
+| Alberto     |        100 |
+| Gerald      |        100 |
+| Eleni       |        100 |
+| Peter       |        145 |
+| David       |        145 |
+| Peter       |        145 |
+| Christopher |        145 |
+| Nanette     |        145 |
+| Oliver      |        145 |
+| Janette     |       NULL |
+| Patrick     |       NULL |
+| Allan       |       NULL |
+| Lindsey     |       NULL |
+| Louise      |       NULL |
+| Sarath      |       NULL |
+| Clara       |       NULL |
+| Danielle    |       NULL |
+| Mattea      |       NULL |
+| David       |       NULL |
+| Sundar      |       NULL |
+| Amit        |       NULL |
+| Lisa        |       NULL |
+| Harrison    |       NULL |
+| Tayler      |       NULL |
+| William     |       NULL |
+| Elizabeth   |       NULL |
+| Sundita     |       NULL |
+| Ellen       |       NULL |
+| Alyssa      |       NULL |
+| Jonathon    |       NULL |
+| Jack        |       NULL |
+| Kimberely   |       NULL |
+| Charles     |       NULL |
+| Winston     |       NULL |
+| Jean        |       NULL |
+| Martha      |       NULL |
+| Girard      |       NULL |
+| Nandita     |        121 |
+| Alexis      |        121 |
+| Julia       |        121 |
+| Anthony     |        121 |
+| Kelly       |       NULL |
+| Jennifer    |       NULL |
+| Timothy     |       NULL |
+| Randall     |       NULL |
+| Sarah       |       NULL |
+| Britney     |       NULL |
+| Samuel      |       NULL |
+| Vance       |       NULL |
+| Alana       |       NULL |
+| Kevin       |       NULL |
+| Donald      |       NULL |
+| Douglas     |       NULL |
+| Jennifer    |       NULL |
+| Michael     |        100 |
+| Pat         |        201 |
+| Susan       |       NULL |
+| Hermann     |       NULL |
+| Shelley     |       NULL |
+| William     |        205 |
++-------------+------------+
+122 rows in set (0.0019 sec)
+ select a.last_name, a.first_name , b.last_name from employees a  inner join employees b on a.employee_id=b.manager_id;
++-----------+------------+-------------+
+| last_name | first_name | last_name   |
++-----------+------------+-------------+
+| King      | Steven     | Kochhar     |
+| King      | Steven     | De Haan     |
+| De Haan   | Lex        | Hunold      |
+| Hunold    | Alexander  | Ernst       |
+| Hunold    | Alexander  | Austin      |
+| Hunold    | Alexander  | Pataballa   |
+| Hunold    | Alexander  | Lorentz     |
+| Kochhar   | Neena      | Greenberg   |
+| Greenberg | Nancy      | Faviet      |
+| Greenberg | Nancy      | Chen        |
+| Greenberg | Nancy      | Sciarra     |
+| Greenberg | Nancy      | Urman       |
+| Greenberg | Nancy      | Popp        |
+| King      | Steven     | Raphaely    |
+| Raphaely  | Den        | Khoo        |
+| Raphaely  | Den        | Baida       |
+| Raphaely  | Den        | Tobias      |
+| Raphaely  | Den        | Himuro      |
+| Raphaely  | Den        | Colmenares  |
+| King      | Steven     | Weiss       |
+| King      | Steven     | Fripp       |
+| King      | Steven     | Kaufling    |
+| King      | Steven     | Vollman     |
+| King      | Steven     | Mourgos     |
+| Weiss     | Matthew    | Nayer       |
+| Weiss     | Matthew    | Mikkilineni |
+| Weiss     | Matthew    | Landry      |
+| Weiss     | Matthew    | Markle      |
+| Fripp     | Adam       | Bissot      |
+| Fripp     | Adam       | Atkinson    |
+| Fripp     | Adam       | Marlow      |
+| Fripp     | Adam       | Olson       |
+| Kaufling  | Payam      | Mallin      |
+| Kaufling  | Payam      | Rogers      |
+| Kaufling  | Payam      | Gee         |
+| Kaufling  | Payam      | Philtanker  |
+| Vollman   | Shanta     | Ladwig      |
+| Vollman   | Shanta     | Stiles      |
+| Vollman   | Shanta     | Seo         |
+| Vollman   | Shanta     | Patel       |
+| Mourgos   | Kevin      | Rajs        |
+| Mourgos   | Kevin      | Davies      |
+| Mourgos   | Kevin      | Matos       |
+| Mourgos   | Kevin      | Vargas      |
+| King      | Steven     | Russell     |
+| King      | Steven     | Partners    |
+| King      | Steven     | Errazuriz   |
+| King      | Steven     | Cambrault   |
+| King      | Steven     | Zlotkey     |
+| Russell   | John       | Tucker      |
+| Russell   | John       | Bernstein   |
+| Russell   | John       | Hall        |
+| Russell   | John       | Olsen       |
+| Russell   | John       | Cambrault   |
+| Russell   | John       | Tuvault     |
+| Partners  | Karen      | King        |
+| Partners  | Karen      | Sully       |
+| Partners  | Karen      | McEwen      |
+| Partners  | Karen      | Smith       |
+| Partners  | Karen      | Doran       |
+| Partners  | Karen      | Sewall      |
+| Errazuriz | Alberto    | Vishney     |
+| Errazuriz | Alberto    | Greene      |
+| Errazuriz | Alberto    | Marvins     |
+| Errazuriz | Alberto    | Lee         |
+| Errazuriz | Alberto    | Ande        |
+| Errazuriz | Alberto    | Banda       |
+| Cambrault | Gerald     | Ozer        |
+| Cambrault | Gerald     | Bloom       |
+| Cambrault | Gerald     | Fox         |
+| Cambrault | Gerald     | Smith       |
+| Cambrault | Gerald     | Bates       |
+| Cambrault | Gerald     | Kumar       |
+| Zlotkey   | Eleni      | Abel        |
+| Zlotkey   | Eleni      | Hutton      |
+| Zlotkey   | Eleni      | Taylor      |
+| Zlotkey   | Eleni      | Livingston  |
+| Zlotkey   | Eleni      | Grant       |
+| Zlotkey   | Eleni      | Johnson     |
+| Weiss     | Matthew    | Taylor      |
+| Weiss     | Matthew    | Fleaur      |
+| Weiss     | Matthew    | Sullivan    |
+| Weiss     | Matthew    | Geoni       |
+| Fripp     | Adam       | Sarchand    |
+| Fripp     | Adam       | Bull        |
+| Fripp     | Adam       | Dellinger   |
+| Fripp     | Adam       | Cabrio      |
+| Kaufling  | Payam      | Chung       |
+| Kaufling  | Payam      | Dilly       |
+| Kaufling  | Payam      | Gates       |
+| Kaufling  | Payam      | Perkins     |
+| Vollman   | Shanta     | Bell        |
+| Vollman   | Shanta     | Everett     |
+| Vollman   | Shanta     | McCain      |
+| Vollman   | Shanta     | Jones       |
+| Mourgos   | Kevin      | Walsh       |
+| Mourgos   | Kevin      | Feeney      |
+| Mourgos   | Kevin      | OConnell    |
+| Mourgos   | Kevin      | Grant       |
+| Kochhar   | Neena      | Whalen      |
+| King      | Steven     | Hartstein   |
+| Hartstein | Michael    | Fay         |
+| Kochhar   | Neena      | Mavris      |
+| Kochhar   | Neena      | Baer        |
+| Kochhar   | Neena      | Higgins     |
+| Higgins   | Shelley    | Gietz       |
++-----------+------------+-------------+
+106 rows in set (0.0040 sec)
+ MySQL  localhost:3306 ssl  empresa2  S
